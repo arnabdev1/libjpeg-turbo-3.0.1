@@ -1,0 +1,12 @@
+-optimize
+-progressive
+-grayscale
+-perfect
+-transpose
+-transverse
+-trim
+-arithmetic
+-report
+-strict
+-verbose
+-debug

@@ -1,0 +1,12 @@
+-grayscale
+-rgb
+-optimize
+-progressive
+-targa
+-arithmetic
+-memdst
+-report
+-strict
+-verbose
+-debug
+-baseline 

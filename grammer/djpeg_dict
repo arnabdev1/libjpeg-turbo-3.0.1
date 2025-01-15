@@ -1,0 +1,17 @@
+-fast
+-grayscale
+-rgb
+-rgb565
+-bmp
+-gif
+-gif0
+-os2
+-pnm
+-targa
+-nosmooth
+-onepass
+-memsrc
+-report
+-strict
+-verbose
+-debug
