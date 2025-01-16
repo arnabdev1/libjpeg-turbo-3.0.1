@@ -1,3 +1,4 @@
+// modified jpegtran for VA Fuzz
 /*
  * jpegtran.c
  *
