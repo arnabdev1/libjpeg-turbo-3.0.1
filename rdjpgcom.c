@@ -1,4 +1,3 @@
-// Modified rdjpgcom for VA Fuzz
 /*
  * rdjpgcom.c
  *

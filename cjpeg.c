@@ -1,4 +1,3 @@
-// modified cjpeg for VA Fuzz
 /*
  * cjpeg.c
  *
@@ -341,22 +340,20 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       /* Force baseline-compatible output (8-bit quantizer values). */
       force_baseline = TRUE;
 
-    } 
-    // else if (keymatch(arg, "dct", 2)) {
-    //   /* Select DCT algorithm. */
-    //   if (++argn >= argc)       /* advance to next argument */
-    //     usage();
-    //   if (keymatch(argv[argn], "int", 1)) {
-    //     cinfo->dct_method = JDCT_ISLOW;
-    //   } else if (keymatch(argv[argn], "fast", 2)) {
-    //     cinfo->dct_method = JDCT_IFAST;
-    //   } else if (keymatch(argv[argn], "float", 2)) {
-    //     cinfo->dct_method = JDCT_FLOAT;
-    //   } else
-    //     usage();
+    } else if (keymatch(arg, "dct", 2)) {
+      /* Select DCT algorithm. */
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      if (keymatch(argv[argn], "int", 1)) {
+        cinfo->dct_method = JDCT_ISLOW;
+      } else if (keymatch(argv[argn], "fast", 2)) {
+        cinfo->dct_method = JDCT_IFAST;
+      } else if (keymatch(argv[argn], "float", 2)) {
+        cinfo->dct_method = JDCT_FLOAT;
+      } else
+        usage();
 
-    // } 
-    else if (keymatch(arg, "debug", 1) || keymatch(arg, "verbose", 1)) {
+    } else if (keymatch(arg, "debug", 1) || keymatch(arg, "verbose", 1)) {
       /* Enable debug printouts. */
       /* On first -d, print version identification */
       static boolean printed_version = FALSE;
@@ -371,10 +368,10 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       }
       cinfo->err->trace_level++;
 
-    // } else if (keymatch(arg, "version", 4)) {
-    //   fprintf(stderr, "%s version %s (build %s)\n",
-    //           PACKAGE_NAME, VERSION, BUILD);
-    //   exit(EXIT_SUCCESS);
+    } else if (keymatch(arg, "version", 4)) {
+      fprintf(stderr, "%s version %s (build %s)\n",
+              PACKAGE_NAME, VERSION, BUILD);
+      exit(EXIT_SUCCESS);
 
     } else if (keymatch(arg, "grayscale", 2) ||
                keymatch(arg, "greyscale", 2)) {
@@ -385,14 +382,13 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       /* Force an RGB JPEG file to be generated. */
       jpeg_set_colorspace(cinfo, JCS_RGB);
 
-    // } else if (keymatch(arg, "icc", 1)) {
-    //   /* Set ICC filename. */
-    //   if (++argn >= argc)       /* advance to next argument */
-    //     usage();
-    //   icc_filename = argv[argn];
+    } else if (keymatch(arg, "icc", 1)) {
+      /* Set ICC filename. */
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      icc_filename = argv[argn];
 
-    } 
-    else if (keymatch(arg, "lossless", 1)) {
+    } else if (keymatch(arg, "lossless", 1)) {
       /* Enable lossless mode. */
 #ifdef C_LOSSLESS_SUPPORTED
       char ch = ',', *ptr;
@@ -413,19 +409,18 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       exit(EXIT_FAILURE);
 #endif
 
-    // } 
-    // else if (keymatch(arg, "maxmemory", 3)) {
-    //   /* Maximum memory in Kb (or Mb with 'm'). */
-    //   long lval;
-    //   char ch = 'x';
+    } else if (keymatch(arg, "maxmemory", 3)) {
+      /* Maximum memory in Kb (or Mb with 'm'). */
+      long lval;
+      char ch = 'x';
 
-    //   if (++argn >= argc)       /* advance to next argument */
-    //     usage();
-    //   if (sscanf(argv[argn], "%ld%c", &lval, &ch) < 1)
-    //     usage();
-    //   if (ch == 'm' || ch == 'M')
-    //     lval *= 1000L;
-    //   cinfo->mem->max_memory_to_use = lval * 1000L;
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      if (sscanf(argv[argn], "%ld%c", &lval, &ch) < 1)
+        usage();
+      if (ch == 'm' || ch == 'M')
+        lval *= 1000L;
+      cinfo->mem->max_memory_to_use = lval * 1000L;
 
     } else if (keymatch(arg, "optimize", 1) || keymatch(arg, "optimise", 1)) {
       /* Enable entropy parm optimization. */
@@ -437,31 +432,29 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       exit(EXIT_FAILURE);
 #endif
 
-    // } else if (keymatch(arg, "outfile", 4)) {
-    //   /* Set output file name. */
-    //   if (++argn >= argc)       /* advance to next argument */
-    //     usage();
-    //   outfilename = argv[argn]; /* save it away for later use */
+    } else if (keymatch(arg, "outfile", 4)) {
+      /* Set output file name. */
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      outfilename = argv[argn]; /* save it away for later use */
 
-    // } 
-//     else if (keymatch(arg, "precision", 3)) {
-//       /* Set data precision. */
-//       int val;
+    } else if (keymatch(arg, "precision", 3)) {
+      /* Set data precision. */
+      int val;
 
-//       if (++argn >= argc)       /* advance to next argument */
-//         usage();
-//       if (sscanf(argv[argn], "%d", &val) != 1)
-//         usage();
-// #ifdef C_LOSSLESS_SUPPORTED
-//       if (val != 8 && val != 12 && val != 16)
-// #else
-//       if (val != 8 && val != 12)
-// #endif
-//         usage();
-//       cinfo->data_precision = val;
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      if (sscanf(argv[argn], "%d", &val) != 1)
+        usage();
+#ifdef C_LOSSLESS_SUPPORTED
+      if (val != 8 && val != 12 && val != 16)
+#else
+      if (val != 8 && val != 12)
+#endif
+        usage();
+      cinfo->data_precision = val;
 
-    } 
-    else if (keymatch(arg, "progressive", 3)) {
+    } else if (keymatch(arg, "progressive", 3)) {
       /* Select simple progressive mode. */
 #ifdef C_PROGRESSIVE_SUPPORTED
       simple_progressive = TRUE;
@@ -476,86 +469,85 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       /* Use in-memory destination manager */
       memdst = TRUE;
 
-    // } 
-    // else if (keymatch(arg, "quality", 1)) {
-    //   /* Quality ratings (quantization table scaling factors). */
-    //   if (++argn >= argc)       /* advance to next argument */
-    //     usage();
-    //   qualityarg = argv[argn];
+    } else if (keymatch(arg, "quality", 1)) {
+      /* Quality ratings (quantization table scaling factors). */
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      qualityarg = argv[argn];
 
-    // } else if (keymatch(arg, "qslots", 2)) {
-    //   /* Quantization table slot numbers. */
-    //   if (++argn >= argc)       /* advance to next argument */
-    //     usage();
-    //   qslotsarg = argv[argn];
-    //   /* Must delay setting qslots until after we have processed any
-    //    * colorspace-determining switches, since jpeg_set_colorspace sets
-    //    * default quant table numbers.
-    //    */
+    } else if (keymatch(arg, "qslots", 2)) {
+      /* Quantization table slot numbers. */
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      qslotsarg = argv[argn];
+      /* Must delay setting qslots until after we have processed any
+       * colorspace-determining switches, since jpeg_set_colorspace sets
+       * default quant table numbers.
+       */
 
-    // } else if (keymatch(arg, "qtables", 2)) {
-    //   /* Quantization tables fetched from file. */
-    //   if (++argn >= argc)       /* advance to next argument */
-    //     usage();
-    //   qtablefile = argv[argn];
-    //   /* We postpone actually reading the file in case -quality comes later. */
+    } else if (keymatch(arg, "qtables", 2)) {
+      /* Quantization tables fetched from file. */
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      qtablefile = argv[argn];
+      /* We postpone actually reading the file in case -quality comes later. */
 
     } else if (keymatch(arg, "report", 3)) {
       report = TRUE;
 
-    // } else if (keymatch(arg, "restart", 1)) {
-    //   /* Restart interval in MCU rows (or in MCUs with 'b'). */
-    //   long lval;
-    //   char ch = 'x';
+    } else if (keymatch(arg, "restart", 1)) {
+      /* Restart interval in MCU rows (or in MCUs with 'b'). */
+      long lval;
+      char ch = 'x';
 
-    //   if (++argn >= argc)       /* advance to next argument */
-    //     usage();
-    //   if (sscanf(argv[argn], "%ld%c", &lval, &ch) < 1)
-    //     usage();
-    //   if (lval < 0 || lval > 65535L)
-    //     usage();
-    //   if (ch == 'b' || ch == 'B') {
-    //     cinfo->restart_interval = (unsigned int)lval;
-    //     cinfo->restart_in_rows = 0; /* else prior '-restart n' overrides me */
-    //   } else {
-    //     cinfo->restart_in_rows = (int)lval;
-    //     /* restart_interval will be computed during startup */
-    //   }
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      if (sscanf(argv[argn], "%ld%c", &lval, &ch) < 1)
+        usage();
+      if (lval < 0 || lval > 65535L)
+        usage();
+      if (ch == 'b' || ch == 'B') {
+        cinfo->restart_interval = (unsigned int)lval;
+        cinfo->restart_in_rows = 0; /* else prior '-restart n' overrides me */
+      } else {
+        cinfo->restart_in_rows = (int)lval;
+        /* restart_interval will be computed during startup */
+      }
 
-    // } else if (keymatch(arg, "sample", 2)) {
-    //   /* Set sampling factors. */
-    //   if (++argn >= argc)       /* advance to next argument */
-    //     usage();
-    //   samplearg = argv[argn];
-    //   /* Must delay setting sample factors until after we have processed any
-    //    * colorspace-determining switches, since jpeg_set_colorspace sets
-    //    * default sampling factors.
-    //    */
+    } else if (keymatch(arg, "sample", 2)) {
+      /* Set sampling factors. */
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      samplearg = argv[argn];
+      /* Must delay setting sample factors until after we have processed any
+       * colorspace-determining switches, since jpeg_set_colorspace sets
+       * default sampling factors.
+       */
 
-//     } else if (keymatch(arg, "scans", 4)) {
-//       /* Set scan script. */
-// #ifdef C_MULTISCAN_FILES_SUPPORTED
-//       if (++argn >= argc)       /* advance to next argument */
-//         usage();
-//       scansarg = argv[argn];
-//       /* We must postpone reading the file in case -progressive appears. */
-// #else
-//       fprintf(stderr, "%s: sorry, multi-scan output was not compiled in\n",
-//               progname);
-//       exit(EXIT_FAILURE);
-// #endif
+    } else if (keymatch(arg, "scans", 4)) {
+      /* Set scan script. */
+#ifdef C_MULTISCAN_FILES_SUPPORTED
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      scansarg = argv[argn];
+      /* We must postpone reading the file in case -progressive appears. */
+#else
+      fprintf(stderr, "%s: sorry, multi-scan output was not compiled in\n",
+              progname);
+      exit(EXIT_FAILURE);
+#endif
 
-    // } else if (keymatch(arg, "smooth", 2)) {
-    //   /* Set input smoothing factor. */
-    //   int val;
+    } else if (keymatch(arg, "smooth", 2)) {
+      /* Set input smoothing factor. */
+      int val;
 
-    //   if (++argn >= argc)       /* advance to next argument */
-    //     usage();
-    //   if (sscanf(argv[argn], "%d", &val) != 1)
-    //     usage();
-    //   if (val < 0 || val > 100)
-    //     usage();
-    //   cinfo->smoothing_factor = val;
+      if (++argn >= argc)       /* advance to next argument */
+        usage();
+      if (sscanf(argv[argn], "%d", &val) != 1)
+        usage();
+      if (val < 0 || val > 100)
+        usage();
+      cinfo->smoothing_factor = val;
 
     } else if (keymatch(arg, "strict", 2)) {
       strict = TRUE;
