@@ -1,3 +1,4 @@
+// removed comment cfile
 /*
  * wrjpgcom.c
  *
@@ -417,51 +418,51 @@ main(int argc, char **argv)
     arg++;                      /* advance over '-' */
     if (keymatch(arg, "replace", 1)) {
       keep_COM = 0;
-    } else if (keymatch(arg, "cfile", 2)) {
-      if (++argn >= argc) usage();
-      if ((comment_file = fopen(argv[argn], "r")) == NULL) {
-        fprintf(stderr, "%s: can't open %s\n", progname, argv[argn]);
-        exit(EXIT_FAILURE);
-      }
-    } else if (keymatch(arg, "comment", 1)) {
-      if (++argn >= argc) usage();
-      comment_arg = argv[argn];
-      /* If the comment text starts with '"', then we are probably running
-       * under MS-DOG and must parse out the quoted string ourselves.  Sigh.
-       */
-      if (comment_arg[0] == '"') {
-        comment_arg = (char *)malloc((size_t)MAX_COM_LENGTH);
-        if (comment_arg == NULL)
-          ERREXIT("Insufficient memory");
-        if (strlen(argv[argn]) + 2 >= (size_t)MAX_COM_LENGTH) {
-          fprintf(stderr, "Comment text may not exceed %u bytes\n",
-                  (unsigned int)MAX_COM_LENGTH);
-          exit(EXIT_FAILURE);
-        }
-        strcpy(comment_arg, argv[argn] + 1);
-        for (;;) {
-          comment_length = (unsigned int)strlen(comment_arg);
-          if (comment_length > 0 && comment_arg[comment_length - 1] == '"') {
-            comment_arg[comment_length - 1] = '\0'; /* zap terminating quote */
-            break;
-          }
-          if (++argn >= argc)
-            ERREXIT("Missing ending quote mark");
-          if (strlen(comment_arg) + strlen(argv[argn]) + 2 >=
-              (size_t)MAX_COM_LENGTH) {
-            fprintf(stderr, "Comment text may not exceed %u bytes\n",
-                    (unsigned int)MAX_COM_LENGTH);
-            exit(EXIT_FAILURE);
-          }
-          strcat(comment_arg, " ");
-          strcat(comment_arg, argv[argn]);
-        }
-      } else if (strlen(argv[argn]) >= (size_t)MAX_COM_LENGTH) {
-        fprintf(stderr, "Comment text may not exceed %u bytes\n",
-                (unsigned int)MAX_COM_LENGTH);
-        exit(EXIT_FAILURE);
-      }
-      comment_length = (unsigned int)strlen(comment_arg);
+    // } else if (keymatch(arg, "cfile", 2)) {
+    //   if (++argn >= argc) usage();
+    //   if ((comment_file = fopen(argv[argn], "r")) == NULL) {
+    //     fprintf(stderr, "%s: can't open %s\n", progname, argv[argn]);
+    //     exit(EXIT_FAILURE);
+    //   }
+    // } else if (keymatch(arg, "comment", 1)) {
+    //   if (++argn >= argc) usage();
+    //   comment_arg = argv[argn];
+    //   /* If the comment text starts with '"', then we are probably running
+    //    * under MS-DOG and must parse out the quoted string ourselves.  Sigh.
+    //    */
+    //   if (comment_arg[0] == '"') {
+    //     comment_arg = (char *)malloc((size_t)MAX_COM_LENGTH);
+    //     if (comment_arg == NULL)
+    //       ERREXIT("Insufficient memory");
+    //     if (strlen(argv[argn]) + 2 >= (size_t)MAX_COM_LENGTH) {
+    //       fprintf(stderr, "Comment text may not exceed %u bytes\n",
+    //               (unsigned int)MAX_COM_LENGTH);
+    //       exit(EXIT_FAILURE);
+    //     }
+    //     strcpy(comment_arg, argv[argn] + 1);
+    //     for (;;) {
+    //       comment_length = (unsigned int)strlen(comment_arg);
+    //       if (comment_length > 0 && comment_arg[comment_length - 1] == '"') {
+    //         comment_arg[comment_length - 1] = '\0'; /* zap terminating quote */
+    //         break;
+    //       }
+    //       if (++argn >= argc)
+    //         ERREXIT("Missing ending quote mark");
+    //       if (strlen(comment_arg) + strlen(argv[argn]) + 2 >=
+    //           (size_t)MAX_COM_LENGTH) {
+    //         fprintf(stderr, "Comment text may not exceed %u bytes\n",
+    //                 (unsigned int)MAX_COM_LENGTH);
+    //         exit(EXIT_FAILURE);
+    //       }
+    //       strcat(comment_arg, " ");
+    //       strcat(comment_arg, argv[argn]);
+    //     }
+    //   } else if (strlen(argv[argn]) >= (size_t)MAX_COM_LENGTH) {
+    //     fprintf(stderr, "Comment text may not exceed %u bytes\n",
+    //             (unsigned int)MAX_COM_LENGTH);
+    //     exit(EXIT_FAILURE);
+    //   }
+    //   comment_length = (unsigned int)strlen(comment_arg);
     } else
       usage();
   }

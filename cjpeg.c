@@ -1,3 +1,4 @@
+removed lossless  icc outfile qtables qslots sample scans
 /*
  * cjpeg.c
  *
@@ -45,10 +46,9 @@
 
 #define JMESSAGE(code, string)  string,
 
-static const char * const cdjpeg_message_table[] = {
+    static const char *const cdjpeg_message_table[] = {
 #include "cderror.h"
-  NULL
-};
+        NULL};
 
 
 /*
@@ -382,32 +382,32 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       /* Force an RGB JPEG file to be generated. */
       jpeg_set_colorspace(cinfo, JCS_RGB);
 
-    } else if (keymatch(arg, "icc", 1)) {
-      /* Set ICC filename. */
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      icc_filename = argv[argn];
+    // } else if (keymatch(arg, "icc", 1)) {
+    //   /* Set ICC filename. */
+    //   if (++argn >= argc)       /* advance to next argument */
+    //     usage();
+    //   icc_filename = argv[argn];
 
-    } else if (keymatch(arg, "lossless", 1)) {
-      /* Enable lossless mode. */
-#ifdef C_LOSSLESS_SUPPORTED
-      char ch = ',', *ptr;
+//     } else if (keymatch(arg, "lossless", 1)) {
+//       /* Enable lossless mode. */
+// #ifdef C_LOSSLESS_SUPPORTED
+//       char ch = ',', *ptr;
 
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      if (sscanf(argv[argn], "%d%c", &psv, &ch) < 1 || ch != ',')
-        usage();
-      ptr = argv[argn];
-      while (*ptr && *ptr++ != ','); /* advance to next segment of arg
-                                        string */
-      if (*ptr)
-        sscanf(ptr, "%d", &pt);
-      jpeg_enable_lossless(cinfo, psv, pt);
-#else
-      fprintf(stderr, "%s: sorry, lossless output was not compiled\n",
-              progname);
-      exit(EXIT_FAILURE);
-#endif
+//       if (++argn >= argc)       /* advance to next argument */
+//         usage();
+//       if (sscanf(argv[argn], "%d%c", &psv, &ch) < 1 || ch != ',')
+//         usage();
+//       ptr = argv[argn];
+//       while (*ptr && *ptr++ != ','); /* advance to next segment of arg
+//                                         string */
+//       if (*ptr)
+//         sscanf(ptr, "%d", &pt);
+//       jpeg_enable_lossless(cinfo, psv, pt);
+// #else
+//       fprintf(stderr, "%s: sorry, lossless output was not compiled\n",
+//               progname);
+//       exit(EXIT_FAILURE);
+// #endif
 
     } else if (keymatch(arg, "maxmemory", 3)) {
       /* Maximum memory in Kb (or Mb with 'm'). */
@@ -432,11 +432,11 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       exit(EXIT_FAILURE);
 #endif
 
-    } else if (keymatch(arg, "outfile", 4)) {
-      /* Set output file name. */
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      outfilename = argv[argn]; /* save it away for later use */
+    // } else if (keymatch(arg, "outfile", 4)) {
+    //   /* Set output file name. */
+    //   if (++argn >= argc)       /* advance to next argument */
+    //     usage();
+    //   outfilename = argv[argn]; /* save it away for later use */
 
     } else if (keymatch(arg, "precision", 3)) {
       /* Set data precision. */
@@ -475,22 +475,22 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
         usage();
       qualityarg = argv[argn];
 
-    } else if (keymatch(arg, "qslots", 2)) {
-      /* Quantization table slot numbers. */
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      qslotsarg = argv[argn];
-      /* Must delay setting qslots until after we have processed any
-       * colorspace-determining switches, since jpeg_set_colorspace sets
-       * default quant table numbers.
-       */
+    // } else if (keymatch(arg, "qslots", 2)) {
+    //   /* Quantization table slot numbers. */
+    //   if (++argn >= argc)       /* advance to next argument */
+    //     usage();
+    //   qslotsarg = argv[argn];
+    //   /* Must delay setting qslots until after we have processed any
+    //    * colorspace-determining switches, since jpeg_set_colorspace sets
+    //    * default quant table numbers.
+    //    */
 
-    } else if (keymatch(arg, "qtables", 2)) {
-      /* Quantization tables fetched from file. */
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      qtablefile = argv[argn];
-      /* We postpone actually reading the file in case -quality comes later. */
+    // } else if (keymatch(arg, "qtables", 2)) {
+    //   /* Quantization tables fetched from file. */
+    //   if (++argn >= argc)       /* advance to next argument */
+    //     usage();
+    //   qtablefile = argv[argn];
+    //   /* We postpone actually reading the file in case -quality comes later. */
 
     } else if (keymatch(arg, "report", 3)) {
       report = TRUE;
@@ -514,28 +514,28 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
         /* restart_interval will be computed during startup */
       }
 
-    } else if (keymatch(arg, "sample", 2)) {
-      /* Set sampling factors. */
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      samplearg = argv[argn];
-      /* Must delay setting sample factors until after we have processed any
-       * colorspace-determining switches, since jpeg_set_colorspace sets
-       * default sampling factors.
-       */
+    // } else if (keymatch(arg, "sample", 2)) {
+    //   /* Set sampling factors. */
+    //   if (++argn >= argc)       /* advance to next argument */
+    //     usage();
+    //   samplearg = argv[argn];
+    //   /* Must delay setting sample factors until after we have processed any
+    //    * colorspace-determining switches, since jpeg_set_colorspace sets
+    //    * default sampling factors.
+    //    */
 
-    } else if (keymatch(arg, "scans", 4)) {
-      /* Set scan script. */
-#ifdef C_MULTISCAN_FILES_SUPPORTED
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      scansarg = argv[argn];
-      /* We must postpone reading the file in case -progressive appears. */
-#else
-      fprintf(stderr, "%s: sorry, multi-scan output was not compiled in\n",
-              progname);
-      exit(EXIT_FAILURE);
-#endif
+//     } else if (keymatch(arg, "scans", 4)) {
+//       /* Set scan script. */
+// #ifdef C_MULTISCAN_FILES_SUPPORTED
+//       if (++argn >= argc)       /* advance to next argument */
+//         usage();
+//       scansarg = argv[argn];
+//       /* We must postpone reading the file in case -progressive appears. */
+// #else
+//       fprintf(stderr, "%s: sorry, multi-scan output was not compiled in\n",
+//               progname);
+//       exit(EXIT_FAILURE);
+// #endif
 
     } else if (keymatch(arg, "smooth", 2)) {
       /* Set input smoothing factor. */

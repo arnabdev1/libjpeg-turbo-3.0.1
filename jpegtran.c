@@ -1,3 +1,4 @@
+// removed crop drop wipe icc outfile scanns
 /*
  * jpegtran.c
  *
@@ -191,47 +192,47 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
         copyoption = JCOPYOPT_NONE;
       } else if (keymatch(argv[argn], "comments", 1)) {
         copyoption = JCOPYOPT_COMMENTS;
-      } else if (keymatch(argv[argn], "icc", 1)) {
-        copyoption = JCOPYOPT_ICC;
+      // } else if (keymatch(argv[argn], "icc", 1)) {
+      //   copyoption = JCOPYOPT_ICC;
       } else if (keymatch(argv[argn], "all", 1)) {
         copyoption = JCOPYOPT_ALL;
       } else
         usage();
 
-    } else if (keymatch(arg, "crop", 2)) {
-      /* Perform lossless cropping. */
-#if TRANSFORMS_SUPPORTED
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      if (transformoption.crop /* reject multiple crop/drop/wipe requests */ ||
-          !jtransform_parse_crop_spec(&transformoption, argv[argn])) {
-        fprintf(stderr, "%s: bogus -crop argument '%s'\n",
-                progname, argv[argn]);
-        exit(EXIT_FAILURE);
-      }
-#else
-      select_transform(JXFORM_NONE);    /* force an error */
-#endif
+//     } else if (keymatch(arg, "crop", 2)) {
+//       /* Perform lossless cropping. */
+// #if TRANSFORMS_SUPPORTED
+//       if (++argn >= argc)       /* advance to next argument */
+//         usage();
+//       if (transformoption.crop /* reject multiple crop/drop/wipe requests */ ||
+//           !jtransform_parse_crop_spec(&transformoption, argv[argn])) {
+//         fprintf(stderr, "%s: bogus -crop argument '%s'\n",
+//                 progname, argv[argn]);
+//         exit(EXIT_FAILURE);
+//       }
+// #else
+//       select_transform(JXFORM_NONE);    /* force an error */
+// #endif
 
-    } else if (keymatch(arg, "drop", 2)) {
-#if TRANSFORMS_SUPPORTED
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      if (transformoption.crop /* reject multiple crop/drop/wipe requests */ ||
-          !jtransform_parse_crop_spec(&transformoption, argv[argn]) ||
-          transformoption.crop_width_set != JCROP_UNSET ||
-          transformoption.crop_height_set != JCROP_UNSET) {
-        fprintf(stderr, "%s: bogus -drop argument '%s'\n",
-                progname, argv[argn]);
-        exit(EXIT_FAILURE);
-      }
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      dropfilename = argv[argn];
-      select_transform(JXFORM_DROP);
-#else
-      select_transform(JXFORM_NONE);    /* force an error */
-#endif
+//     } else if (keymatch(arg, "drop", 2)) {
+// #if TRANSFORMS_SUPPORTED
+//       if (++argn >= argc)       /* advance to next argument */
+//         usage();
+//       if (transformoption.crop /* reject multiple crop/drop/wipe requests */ ||
+//           !jtransform_parse_crop_spec(&transformoption, argv[argn]) ||
+//           transformoption.crop_width_set != JCROP_UNSET ||
+//           transformoption.crop_height_set != JCROP_UNSET) {
+//         fprintf(stderr, "%s: bogus -drop argument '%s'\n",
+//                 progname, argv[argn]);
+//         exit(EXIT_FAILURE);
+//       }
+//       if (++argn >= argc)       /* advance to next argument */
+//         usage();
+//       dropfilename = argv[argn];
+//       select_transform(JXFORM_DROP);
+// #else
+//       select_transform(JXFORM_NONE);    /* force an error */
+// #endif
 
     } else if (keymatch(arg, "debug", 1) || keymatch(arg, "verbose", 1)) {
       /* Enable debug printouts. */
@@ -308,11 +309,11 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       exit(EXIT_FAILURE);
 #endif
 
-    } else if (keymatch(arg, "outfile", 4)) {
-      /* Set output file name. */
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      outfilename = argv[argn]; /* save it away for later use */
+    // } else if (keymatch(arg, "outfile", 4)) {
+    //   /* Set output file name. */
+    //   if (++argn >= argc)       /* advance to next argument */
+    //     usage();
+    //   outfilename = argv[argn]; /* save it away for later use */
 
     } else if (keymatch(arg, "perfect", 2)) {
       /* Fail if there is any partial edge MCUs that the transform can't
@@ -365,18 +366,18 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       else
         usage();
 
-    } else if (keymatch(arg, "scans", 1)) {
-      /* Set scan script. */
-#ifdef C_MULTISCAN_FILES_SUPPORTED
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      scansarg = argv[argn];
-      /* We must postpone reading the file in case -progressive appears. */
-#else
-      fprintf(stderr, "%s: sorry, multi-scan output was not compiled\n",
-              progname);
-      exit(EXIT_FAILURE);
-#endif
+//     } else if (keymatch(arg, "scans", 1)) {
+//       /* Set scan script. */
+// #ifdef C_MULTISCAN_FILES_SUPPORTED
+//       if (++argn >= argc)       /* advance to next argument */
+//         usage();
+//       scansarg = argv[argn];
+//       /* We must postpone reading the file in case -progressive appears. */
+// #else
+//       fprintf(stderr, "%s: sorry, multi-scan output was not compiled\n",
+//               progname);
+//       exit(EXIT_FAILURE);
+// #endif
 
     } else if (keymatch(arg, "strict", 2)) {
       strict = TRUE;
@@ -393,20 +394,20 @@ parse_switches(j_compress_ptr cinfo, int argc, char **argv,
       /* Trim off any partial edge MCUs that the transform can't handle. */
       transformoption.trim = TRUE;
 
-    } else if (keymatch(arg, "wipe", 1)) {
-#if TRANSFORMS_SUPPORTED
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      if (transformoption.crop /* reject multiple crop/drop/wipe requests */ ||
-          !jtransform_parse_crop_spec(&transformoption, argv[argn])) {
-        fprintf(stderr, "%s: bogus -wipe argument '%s'\n",
-                progname, argv[argn]);
-        exit(EXIT_FAILURE);
-      }
-      select_transform(JXFORM_WIPE);
-#else
-      select_transform(JXFORM_NONE);    /* force an error */
-#endif
+//     } else if (keymatch(arg, "wipe", 1)) {
+// #if TRANSFORMS_SUPPORTED
+//       if (++argn >= argc)       /* advance to next argument */
+//         usage();
+//       if (transformoption.crop /* reject multiple crop/drop/wipe requests */ ||
+//           !jtransform_parse_crop_spec(&transformoption, argv[argn])) {
+//         fprintf(stderr, "%s: bogus -wipe argument '%s'\n",
+//                 progname, argv[argn]);
+//         exit(EXIT_FAILURE);
+//       }
+//       select_transform(JXFORM_WIPE);
+// #else
+//       select_transform(JXFORM_NONE);    /* force an error */
+// #endif
 
     } else {
       usage();                  /* bogus switch */

@@ -1,3 +1,4 @@
+// removed scale icc map outfile skip crop
 /*
  * djpeg.c
  *
@@ -309,37 +310,37 @@ parse_switches(j_decompress_ptr cinfo, int argc, char **argv,
       /* Force RGB565 output. */
       cinfo->out_color_space = JCS_RGB565;
 
-    } else if (keymatch(arg, "icc", 1)) {
-      /* Set ICC filename. */
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      icc_filename = argv[argn];
-#ifdef SAVE_MARKERS_SUPPORTED
-      jpeg_save_markers(cinfo, JPEG_APP0 + 2, 0xFFFF);
-#endif
+//     } else if (keymatch(arg, "icc", 1)) {
+//       /* Set ICC filename. */
+//       if (++argn >= argc)       /* advance to next argument */
+//         usage();
+//       icc_filename = argv[argn];
+// #ifdef SAVE_MARKERS_SUPPORTED
+//       jpeg_save_markers(cinfo, JPEG_APP0 + 2, 0xFFFF);
+// #endif
 
-    } else if (keymatch(arg, "map", 3)) {
-      /* Quantize to a color map taken from an input file. */
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      if (for_real) {           /* too expensive to do twice! */
-#ifdef QUANT_2PASS_SUPPORTED    /* otherwise can't quantize to supplied map */
-        FILE *mapfile;
+//     } else if (keymatch(arg, "map", 3)) {
+//       /* Quantize to a color map taken from an input file. */
+//       if (++argn >= argc)       /* advance to next argument */
+//         usage();
+//       if (for_real) {           /* too expensive to do twice! */
+// #ifdef QUANT_2PASS_SUPPORTED    /* otherwise can't quantize to supplied map */
+//         FILE *mapfile;
 
-        if ((mapfile = fopen(argv[argn], READ_BINARY)) == NULL) {
-          fprintf(stderr, "%s: can't open %s\n", progname, argv[argn]);
-          exit(EXIT_FAILURE);
-        }
-        if (cinfo->data_precision == 12)
-          read_color_map_12(cinfo, mapfile);
-        else
-          read_color_map(cinfo, mapfile);
-        fclose(mapfile);
-        cinfo->quantize_colors = TRUE;
-#else
-        ERREXIT(cinfo, JERR_NOT_COMPILED);
-#endif
-      }
+//         if ((mapfile = fopen(argv[argn], READ_BINARY)) == NULL) {
+//           fprintf(stderr, "%s: can't open %s\n", progname, argv[argn]);
+//           exit(EXIT_FAILURE);
+//         }
+//         if (cinfo->data_precision == 12)
+//           read_color_map_12(cinfo, mapfile);
+//         else
+//           read_color_map(cinfo, mapfile);
+//         fclose(mapfile);
+//         cinfo->quantize_colors = TRUE;
+// #else
+//         ERREXIT(cinfo, JERR_NOT_COMPILED);
+// #endif
+//       }
 
     } else if (keymatch(arg, "maxmemory", 3)) {
       /* Maximum memory in Kb (or Mb with 'm'). */
@@ -372,11 +373,11 @@ parse_switches(j_decompress_ptr cinfo, int argc, char **argv,
       /* BMP output format (OS/2 flavor). */
       requested_fmt = FMT_OS2;
 
-    } else if (keymatch(arg, "outfile", 4)) {
-      /* Set output file name. */
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      outfilename = argv[argn]; /* save it away for later use */
+    // } else if (keymatch(arg, "outfile", 4)) {
+    //   /* Set output file name. */
+    //   if (++argn >= argc)       /* advance to next argument */
+    //     usage();
+    //   outfilename = argv[argn]; /* save it away for later use */
 
     } else if (keymatch(arg, "memsrc", 2)) {
       /* Use in-memory source manager */
@@ -389,31 +390,31 @@ parse_switches(j_decompress_ptr cinfo, int argc, char **argv,
     } else if (keymatch(arg, "report", 2)) {
       report = TRUE;
 
-    } else if (keymatch(arg, "scale", 2)) {
-      /* Scale the output image by a fraction M/N. */
-      if (++argn >= argc)       /* advance to next argument */
-        usage();
-      if (sscanf(argv[argn], "%u/%u",
-                 &cinfo->scale_num, &cinfo->scale_denom) != 2)
-        usage();
+    // } else if (keymatch(arg, "scale", 2)) {
+    //   /* Scale the output image by a fraction M/N. */
+    //   if (++argn >= argc)       /* advance to next argument */
+    //     usage();
+    //   if (sscanf(argv[argn], "%u/%u",
+    //              &cinfo->scale_num, &cinfo->scale_denom) != 2)
+    //     usage();
 
-    } else if (keymatch(arg, "skip", 2)) {
-      if (++argn >= argc)
-        usage();
-      if (sscanf(argv[argn], "%u,%u", &skip_start, &skip_end) != 2 ||
-          skip_start > skip_end)
-        usage();
-      skip = TRUE;
+    // } else if (keymatch(arg, "skip", 2)) {
+    //   if (++argn >= argc)
+    //     usage();
+    //   if (sscanf(argv[argn], "%u,%u", &skip_start, &skip_end) != 2 ||
+    //       skip_start > skip_end)
+    //     usage();
+    //   skip = TRUE;
 
-    } else if (keymatch(arg, "crop", 2)) {
-      char c;
-      if (++argn >= argc)
-        usage();
-      if (sscanf(argv[argn], "%u%c%u+%u+%u", &crop_width, &c, &crop_height,
-                 &crop_x, &crop_y) != 5 ||
-          (c != 'X' && c != 'x') || crop_width < 1 || crop_height < 1)
-        usage();
-      crop = TRUE;
+    // } else if (keymatch(arg, "crop", 2)) {
+    //   char c;
+    //   if (++argn >= argc)
+    //     usage();
+    //   if (sscanf(argv[argn], "%u%c%u+%u+%u", &crop_width, &c, &crop_height,
+    //              &crop_x, &crop_y) != 5 ||
+    //       (c != 'X' && c != 'x') || crop_width < 1 || crop_height < 1)
+    //     usage();
+    //   crop = TRUE;
 
     } else if (keymatch(arg, "strict", 2)) {
       strict = TRUE;
