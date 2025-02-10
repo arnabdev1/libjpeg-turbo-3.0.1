@@ -1,4 +1,4 @@
-removed lossless  icc outfile qtables qslots sample scans
+// removed lossless  icc outfile qtables qslots sample scans
 /*
  * cjpeg.c
  *
